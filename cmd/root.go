@@ -40,7 +40,7 @@ func init() {
 		&token,
 		"token",
 		envToken,
-		"Bearer token for authorization (can be set via UCLI_TOKEN env)",
+		"Bearer token for authorization (can be set via UCLI_PROJECT_API_TOKEN env)",
 	)
 
 	rootCmd.PersistentFlags().StringVar(

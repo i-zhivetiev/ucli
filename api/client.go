@@ -41,14 +41,14 @@ func (api *APIClient) doRequest(method, endpoint string, body interface{}) ([]by
 	if body != nil {
 		jsonBytes, err := json.Marshal(body)
 		if err != nil {
-			return nil, fmt.Errorf("Failed to serialize body to JSON: %w", err)
+			return nil, fmt.Errorf("failed to serialize body to JSON: %w", err)
 		}
 		requestBody = bytes.NewBuffer(jsonBytes)
 	}
 
 	req, err := http.NewRequest(method, url, requestBody)
 	if err != nil {
-		return nil, fmt.Errorf("Cannot create request: %w", err)
+		return nil, fmt.Errorf("cannot create request: %w", err)
 	}
 
 	req.Header.Set("Content-Type", "application/json")
@@ -59,17 +59,17 @@ func (api *APIClient) doRequest(method, endpoint string, body interface{}) ([]by
 
 	resp, err := api.client.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("Request error: %w", err)
+		return nil, fmt.Errorf("request error: %w", err)
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode < http.StatusOK || resp.StatusCode >= http.StatusBadRequest {
-		return nil, fmt.Errorf("Server error: %d", resp.StatusCode)
+		return nil, fmt.Errorf("server error: %d", resp.StatusCode)
 	}
 
 	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, fmt.Errorf("Cannot parse body: %w", err)
+		return nil, fmt.Errorf("cannot parse body: %w", err)
 	}
 
 	return respBody, nil
