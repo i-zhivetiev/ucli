@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 	"ucli/api"
 
 	"github.com/spf13/cobra"
@@ -16,6 +17,7 @@ var listCmd = &cobra.Command{
 		projects, err := client.GetProjects()
 		if err != nil {
 			fmt.Println(err)
+			os.Exit(1)
 		}
 		fmt.Println(projects)
 	},

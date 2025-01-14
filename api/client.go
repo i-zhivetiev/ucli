@@ -75,10 +75,6 @@ func (api *APIClient) doRequest(method, endpoint string, body interface{}) ([]by
 	return respBody, nil
 }
 
-type Project struct {
-	Name string `json:"name"`
-}
-
 func (api *APIClient) GetProjects() (string, error) {
 	endpoint := "/"
 	bodyBytes, err := api.doRequest(http.MethodGet, endpoint, nil)
@@ -88,7 +84,10 @@ func (api *APIClient) GetProjects() (string, error) {
 
 func (api *APIClient) CreateProject(name string) (string, error) {
 	endpoint := "/"
-	body := Project{Name: name}
+
+	body := make(map[string]interface{})
+	body["name"] = name
+
 	bodyBytes, err := api.doRequest(http.MethodPost, endpoint, body)
 	pretty, err := prettifyJSON(bodyBytes)
 	return pretty, err
@@ -98,4 +97,11 @@ func (api *APIClient) DeleteProject(pub_key string) error {
 	endpoint := fmt.Sprintf("/%s/", pub_key)
 	_, err := api.doRequest(http.MethodDelete, endpoint, nil)
 	return err
+}
+
+func (api *APIClient) UpdateProject(pub_key string, body map[string]interface{}) (string, error) {
+	endpoint := fmt.Sprintf("/%s/", pub_key)
+	bodyBytes, err := api.doRequest(http.MethodPost, endpoint, body)
+	pretty, err := prettifyJSON(bodyBytes)
+	return pretty, err
 }

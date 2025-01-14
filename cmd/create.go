@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 	"ucli/api"
 
 	"github.com/spf13/cobra"
@@ -18,6 +19,7 @@ var createCmd = &cobra.Command{
 		project, err := client.CreateProject(name)
 		if err != nil {
 			fmt.Println(err)
+			os.Exit(1)
 		}
 		fmt.Println(project)
 	},
