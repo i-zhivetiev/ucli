@@ -14,7 +14,7 @@ var updateCmd = &cobra.Command{
 	Long:  "",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		pub_key := args[0]
+		pubKey := args[0]
 
 		body, err := LoadJSON(jsonFile)
 		if err != nil {
@@ -23,7 +23,7 @@ var updateCmd = &cobra.Command{
 		}
 
 		client := api.NewAPIClient(projectApiURL, token)
-		updatedProject, err := client.UpdateProject(pub_key, body)
+		updatedProject, err := client.UpdateProject(pubKey, body)
 
 		if err != nil {
 			fmt.Println(err)

@@ -13,9 +13,9 @@ var deleteCmd = &cobra.Command{
 	Long:  "",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		pub_key := args[0]
+		pubKey := args[0]
 		client := api.NewAPIClient(projectApiURL, token)
-		err := client.DeleteProject(pub_key)
+		err := client.DeleteProject(pubKey)
 		if err != nil {
 			fmt.Println(err)
 		}

@@ -89,14 +89,14 @@ func (api *APIClient) CreateProject(body map[string]interface{}) (string, error)
 	return pretty, err
 }
 
-func (api *APIClient) DeleteProject(pub_key string) error {
-	endpoint := fmt.Sprintf("/%s/", pub_key)
+func (api *APIClient) DeleteProject(pubKey string) error {
+	endpoint := fmt.Sprintf("/%s/", pubKey)
 	_, err := api.doRequest(http.MethodDelete, endpoint, nil)
 	return err
 }
 
-func (api *APIClient) UpdateProject(pub_key string, body map[string]interface{}) (string, error) {
-	endpoint := fmt.Sprintf("/%s/", pub_key)
+func (api *APIClient) UpdateProject(pubKey string, body map[string]interface{}) (string, error) {
+	endpoint := fmt.Sprintf("/%s/", pubKey)
 	bodyBytes, err := api.doRequest(http.MethodPost, endpoint, body)
 	pretty, err := prettifyJSON(bodyBytes)
 	return pretty, err
