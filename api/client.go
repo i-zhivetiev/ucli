@@ -61,7 +61,9 @@ func (api *APIClient) doRequest(method, endpoint string, body interface{}) ([]by
 	if err != nil {
 		return nil, fmt.Errorf("request error: %w", err)
 	}
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		_ = Body.Close()
+	}(resp.Body)
 
 	if resp.StatusCode < http.StatusOK || resp.StatusCode >= http.StatusBadRequest {
 		return nil, fmt.Errorf("server error: %d", resp.StatusCode)
@@ -73,6 +75,13 @@ func (api *APIClient) doRequest(method, endpoint string, body interface{}) ([]by
 	}
 
 	return respBody, nil
+}
+
+func (api *APIClient) GetSingleProject(pubKey string) (string, error) {
+	endpoint := fmt.Sprintf("/%s/", pubKey)
+	bodyBytes, err := api.doRequest(http.MethodGet, endpoint, nil)
+	pretty, err := prettifyJSON(bodyBytes)
+	return pretty, err
 }
 
 func (api *APIClient) GetProjects() (string, error) {

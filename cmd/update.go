@@ -37,12 +37,12 @@ var updateCmd = &cobra.Command{
 var jsonFile string
 
 func init() {
+	projectCmd.AddCommand(updateCmd)
+
 	updateCmd.Flags().StringVar(
 		&jsonFile,
 		"json",
 		"",
 		"JSON file with project data",
 	)
-
-	projectCmd.AddCommand(updateCmd)
 }

@@ -32,11 +32,12 @@ var createCmd = &cobra.Command{
 }
 
 func init() {
+	projectCmd.AddCommand(createCmd)
+
 	createCmd.Flags().StringVar(
 		&jsonFile,
 		"json",
 		"",
 		"JSON file with project data",
 	)
-	projectCmd.AddCommand(createCmd)
 }
