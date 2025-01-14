@@ -82,12 +82,8 @@ func (api *APIClient) GetProjects() (string, error) {
 	return pretty, err
 }
 
-func (api *APIClient) CreateProject(name string) (string, error) {
+func (api *APIClient) CreateProject(body map[string]interface{}) (string, error) {
 	endpoint := "/"
-
-	body := make(map[string]interface{})
-	body["name"] = name
-
 	bodyBytes, err := api.doRequest(http.MethodPost, endpoint, body)
 	pretty, err := prettifyJSON(bodyBytes)
 	return pretty, err

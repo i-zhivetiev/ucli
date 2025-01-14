@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 	"ucli/api"
@@ -17,13 +16,8 @@ var updateCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		pub_key := args[0]
 
-		bytes, err := os.ReadFile(jsonFile)
+		body, err := LoadJSON(jsonFile)
 		if err != nil {
-			fmt.Println(err)
-		}
-
-		var body map[string]interface{}
-		if err := json.Unmarshal(bytes, &body); err != nil {
 			fmt.Println(err)
 			os.Exit(1)
 		}
@@ -35,6 +29,7 @@ var updateCmd = &cobra.Command{
 			fmt.Println(err)
 			os.Exit(1)
 		}
+
 		fmt.Println(updatedProject)
 	},
 }
@@ -42,12 +37,12 @@ var updateCmd = &cobra.Command{
 var jsonFile string
 
 func init() {
-	projectCmd.AddCommand(updateCmd)
-
 	updateCmd.Flags().StringVar(
 		&jsonFile,
 		"json",
 		"",
 		"JSON file with project data",
 	)
+
+	projectCmd.AddCommand(updateCmd)
 }
