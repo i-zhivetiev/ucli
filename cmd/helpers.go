@@ -3,10 +3,11 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 )
 
-func LoadJSON(filePath string) (map[string]interface{}, error) {
+func LoadJSONFromFile(filePath string) (map[string]interface{}, error) {
 	bytes, err := os.ReadFile(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read file: %w", err)
@@ -18,4 +19,18 @@ func LoadJSON(filePath string) (map[string]interface{}, error) {
 	}
 
 	return body, nil
+}
+
+func ReadJSONFromStdin() (map[string]interface{}, error) {
+	input, err := io.ReadAll(os.Stdin)
+	if err != nil {
+		return nil, err
+	}
+
+	var data map[string]interface{}
+	if err := json.Unmarshal(input, &data); err != nil {
+		return nil, err
+	}
+
+	return data, nil
 }

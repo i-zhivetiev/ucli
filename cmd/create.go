@@ -13,7 +13,7 @@ var createCmd = &cobra.Command{
 	Short: "create a new project",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
-		body, err := LoadJSON(jsonFile)
+		body, err := ReadJSONFromStdin()
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
@@ -33,11 +33,4 @@ var createCmd = &cobra.Command{
 
 func init() {
 	projectCmd.AddCommand(createCmd)
-
-	createCmd.Flags().StringVar(
-		&jsonFile,
-		"json",
-		"",
-		"JSON file with project data",
-	)
 }

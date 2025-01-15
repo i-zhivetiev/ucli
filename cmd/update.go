@@ -16,7 +16,7 @@ var updateCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		pubKey := args[0]
 
-		body, err := LoadJSON(jsonFile)
+		body, err := ReadJSONFromStdin()
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
@@ -38,11 +38,4 @@ var jsonFile string
 
 func init() {
 	projectCmd.AddCommand(updateCmd)
-
-	updateCmd.Flags().StringVar(
-		&jsonFile,
-		"json",
-		"",
-		"JSON file with project data",
-	)
 }
