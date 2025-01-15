@@ -1,9 +1,10 @@
-package cmd
+package project
 
 import (
 	"fmt"
 	"os"
 	"ucli/api"
+	"ucli/cmd/storage"
 
 	"github.com/spf13/cobra"
 )
@@ -13,9 +14,9 @@ var viewCmd = &cobra.Command{
 	Short: "Get project details",
 	Long:  "",
 	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(c *cobra.Command, args []string) {
 		pubKey := args[0]
-		client := api.NewAPIClient(projectApiURL, token)
+		client := api.NewAPIClient(storage.ProjectApiURL, storage.Token)
 		createdProject, err := client.GetSingleProject(pubKey)
 
 		if err != nil {
@@ -28,5 +29,5 @@ var viewCmd = &cobra.Command{
 }
 
 func init() {
-	projectCmd.AddCommand(viewCmd)
+	ProjectCmd.AddCommand(viewCmd)
 }

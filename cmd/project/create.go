@@ -1,9 +1,12 @@
-package cmd
+package project
 
 import (
 	"fmt"
 	"os"
+
 	"ucli/api"
+	"ucli/cmd/storage"
+	"ucli/helpers"
 
 	"github.com/spf13/cobra"
 )
@@ -12,14 +15,14 @@ var createCmd = &cobra.Command{
 	Use:   "create",
 	Short: "create a new project",
 	Long:  "",
-	Run: func(cmd *cobra.Command, args []string) {
-		body, err := LoadJSON(jsonFile)
+	Run: func(c *cobra.Command, args []string) {
+		body, err := helpers.LoadJSON(jsonFile)
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
 		}
 
-		client := api.NewAPIClient(projectApiURL, token)
+		client := api.NewAPIClient(storage.ProjectApiURL, storage.Token)
 		project, err := client.CreateProject(body)
 
 		if err != nil {
@@ -32,7 +35,7 @@ var createCmd = &cobra.Command{
 }
 
 func init() {
-	projectCmd.AddCommand(createCmd)
+	ProjectCmd.AddCommand(createCmd)
 
 	createCmd.Flags().StringVar(
 		&jsonFile,

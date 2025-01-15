@@ -1,8 +1,10 @@
-package cmd
+package project
 
 import (
 	"fmt"
+
 	"ucli/api"
+	"ucli/cmd/storage"
 
 	"github.com/spf13/cobra"
 )
@@ -12,9 +14,9 @@ var deleteCmd = &cobra.Command{
 	Short: "delete a project",
 	Long:  "",
 	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(c *cobra.Command, args []string) {
 		pubKey := args[0]
-		client := api.NewAPIClient(projectApiURL, token)
+		client := api.NewAPIClient(storage.ProjectApiURL, storage.Token)
 		err := client.DeleteProject(pubKey)
 		if err != nil {
 			fmt.Println(err)
@@ -23,5 +25,5 @@ var deleteCmd = &cobra.Command{
 }
 
 func init() {
-	projectCmd.AddCommand(deleteCmd)
+	ProjectCmd.AddCommand(deleteCmd)
 }
